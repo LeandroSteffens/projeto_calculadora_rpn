@@ -3,27 +3,27 @@
 #define MAX 100
 
 
-int *p;    //Aponta para regiao de memoria livre
-int tos;   // Ponteiro para o topo da pilha 
-int *bos;  //Ponteiro para a base da pilha
-void push (int i);
-int pop (void);
+float *livre;    //Aponta para regiao de memoria livre
+int topo;   // Ponteiro para o topo da pilha 
+int *base;  //Ponteiro para a base da pilha
+void push (float i);
+float pop (void);
  
 main()
 {
-  int a,b;
+  float a,b;
   char s[80];
 
-  p = (int ) malloc (MAX*sizeof (int)); /* Aloca memoria para pilha */
+  livre = (int ) malloc (MAX*sizeof (int)); /* Aloca memoria para pilha */
 
-    if(!p) {
+    if(!livre) {
         printf("Erro de alocacao de memoria\n"); exit (1);
         exit(1);
     }
 
-    tos = p;
-    bos = (p + MAX-1);
-    printf("Calculadora RPN");
+    topo = livre;
+    base = (livre + MAX-1);
+    printf("Calculadora RPN\n");
 
     do {
         printf(": ");
@@ -33,43 +33,44 @@ main()
             case '+':
                 a = pop();
                 b = pop();
-                printf("%d\n", b+a);
+                //printf("%d\n", b+a);
                 push(b+a);
                 break;
 
             case '-':
                 a = pop();
                 b = pop();
-                printf("%d\n", b-a);
+                //printf("%d\n", b-a);
                 push(b-a);
             break;
 
             case '*':
                 a = pop();
                 b = pop();
-                printf("%d\n", b*a);
+                //printf("%d\n", b*a);
+                push(b*a);
                 break;
 
             case '/':
-                a = pop();
-                b = pop();
                 if (a==0) {
                     printf("Divisao por 0\n");
-                break;
+                    exit(0);
                 }
 
-            printf("%d\n", b/a);
-            push(b/a);
-            break; 
+              a = pop();
+              b = pop();
+              //printf("%d\n", b/a);
+              push(b/a);
+              break; 
 
-            case '.': /*Mostra conteudo do topo da Pilha*/
+            case '.': /*Mostra o resultado*/
                 a = pop();
                 push(a);
-                printf("Valor corrente no topo da pilha: %d\n", a); 
+                printf("Resultado: %f\n", a); 
             break;
 
             default:
-                push(atoi (s));
+                push(atoi (s)); //conversao de string para inteiro
             }
     } while (*s!='q');
 
@@ -77,23 +78,23 @@ return 0;
 }
 
 // Armazena um elemento na Pilha void push (int i) = empilha 
-void push (int i)
+void push (float i)
 {
-  if (p>bos) {
+  if (livre>base) {
     printf("Pilha Cheia\n");
     return;
   } 
-  *p = i;
-  p++;
+  *livre = i;
+  livre++;
 }
 
 // Recupera um elemento da Pilha desempilha
-pop (void) 
+float pop (void) 
 {
-  p--;
-  if (p<tos) {
+  livre--;
+  if (livre<(topo-1)) {
     printf("Pilha Vazia\n");
     return 0;
   }
-  return *p;
+  return *livre;
 }
