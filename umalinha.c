@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #define MAX 100
 
 
@@ -24,12 +25,14 @@ main()
     topo = livre;
     base = (livre + MAX-1);
     printf("Calculadora RPN\n");
+    
+    //
+    gets(s);
+    int tam = strlen(s)-1;
+    //    
 
-    do {
-        printf(": ");
-        gets(s);
-
-        switch (*s) {
+    for (int i = 0; i <= tam; i++){
+        switch (s[i]) {
             case '+':
                 a = pop();
                 b = pop();
@@ -66,9 +69,16 @@ main()
             break;
 
             default:
-                push(atoi (s)); //conversao de string para inteiro
+                a = s[i];
+                int cvt = a - '0'; 
+                push(cvt); //conversao de string para inteiro
             }
-    } while (*s!='q');
+    }
+
+    //resultado
+    a = pop();
+    push(a);
+    printf("\nResultado: %f\n", a);
 
 return 0;
 }
