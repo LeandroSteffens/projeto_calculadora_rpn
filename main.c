@@ -10,7 +10,7 @@ int *base;  //Ponteiro para a base da pilha
 void push (float i);
 float pop (void);
  
-main()
+int main()
 {
   float a,b;
   char s[80];
@@ -26,7 +26,7 @@ main()
     topo = livre;
     base = (livre + MAX-1);
     printf("Calculadora RPN\n");
-    
+  
     //
     gets(s);
     int tam = strlen(s)-1;
